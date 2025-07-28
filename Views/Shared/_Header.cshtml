@@ -1,4 +1,5 @@
-﻿<header id="header" class="header d-flex align-items-center sticky-top">
+﻿
+<header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a asp-controller="home" asp-action="index" class="logo d-flex align-items-center me-auto">
@@ -38,7 +39,13 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="btn-getstarted" href="#">Sign In</a>
+        @if (User.Identity ==null || !User.Identity.IsAuthenticated)
+        {
+            <a class="btn-getstarted" asp-controller="authentication" asp-action="login">Sign In</a>
+        } else
+        {
+            <a class="btn-getstarted" asp-controller="authentication" asp-action="logout">Logout</a>
+        }
 
     </div>
 </header>

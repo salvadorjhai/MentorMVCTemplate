@@ -61,6 +61,10 @@
     <!-- Main JS File -->
     <script src="~/assets/js/main.js"></script>
 
+    @{
+        await Html.RenderPartialAsync("_validationscriptspartial.cshtml");
+    }
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

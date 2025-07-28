@@ -1,0 +1,145 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+        <div class="heading">
+            <div class="container">
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-lg-8">
+                        <h1>@ViewData["Title"]</h1>
+                        <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="current">@ViewData["Title"]</li>
+                </ol>
+            </div>
+        </nav>
+    </div><!-- End Page Title -->
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+                <div class="offset-lg-3 col-lg-6">
+
+                    <form class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+
+                        <div class="row gy-4">
+
+                            <div class="col-md-12">
+                                <label for="username">Username:</label>
+                                <input type="text" name="username" class="form-control" placeholder="username" autocomplete="off">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" class="form-control" placeholder="password" autocomplete="off">
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <div class="loading" hidden>Loading</div>
+                                <div class="error-message" hidden></div>
+                                <div class="sent-message" hidden>Your message has been sent. Thank you!</div>
+
+                                <button type="button" class="btn btn-primary">Login</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                    @* <form action="" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                        <div class="row gy-2">
+
+                            <div class="col-md-12">
+                                <label>Username:</label>
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Password:</label>
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <div class="loading">Loading</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                                <button type="submit">Login</button>
+                            </div>
+
+                        </div>
+                    </form> *@
+
+                </div><!-- End Contact Form -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Contact Section -->
+
+</main>
+
+@section scripts {
+
+    <script>
+        
+        function initpage (){
+
+            $(`.btn-primary`).on(`click`, function(){
+
+                var data = {
+                    username: $(`input[name=username]`).val(),
+                    password: $(`input[name=password]`).val()
+                }
+
+                return $.ajax({
+                    url: "/authentication/login",
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (response, textStatus, jqXHR) {
+                        location.assign("/")
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.responseText) {
+                            $(`.error-message`)[0].innerText = JSON.parse(jqXHR.responseText).description
+                            $(`.error-message`)[0].hidden = false
+                            $(`.error-message`)[0].style = "display: block"
+                        }
+                        console.log(textStatus);
+                        return;
+                    }
+                });
+
+
+
+            })
+
+        }
+
+        $(function(){
+            initpage()
+        })
+
+    </script>
+
+
+}
